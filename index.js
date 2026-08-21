@@ -33,6 +33,34 @@ const playerPosition = {
     playerOrientation: 90
 };
 
+const getDirection = orient => {
+   if (orient >= 337.5 || orient < 22.5) {
+    arrow = "➡️";
+   }
+   else if (orient >= 22.5 && orient < 67.5) {
+    arrow = "↘️";
+   }
+   else if (orient >= 67.5 && orient < 112.5) {
+    arrow = "⬇️";
+   }
+   else if (orient >= 112.5 && orient < 157.5) {
+    arrow = "↙️";
+   }
+   else if (orient >= 157.5 && orient < 202.5) {
+    arrow = "⬅️";
+   }
+   else if (orient >= 202.5 && orient < 247.5) {
+    arrow = "↖️";
+   }
+   else if (orient >= 247.5 && orient < 292.5) {
+    arrow = "⬆️";
+   }
+   else if (orient >= 292.5 && orient < 337.5) {
+    arrow = "↗️";
+   } else { arrow = "🔴"; }
+    return arrow
+};
+
 const getCartesian = orient => {
     const rad = orient * Math.PI / 180;
 
@@ -360,7 +388,7 @@ app.get("/map", (req, res) => {
         if (localMap[i] === 1) {
             response += "⬜";
         } else if (localMap[i] === 2) {
-            response += "🔴";
+            response += getDirection(playerPosition.playerOrientation);
         } else {
             response += "⬛";
         }
