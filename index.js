@@ -333,7 +333,7 @@ function renderAscii(rays) {
 
         output += "\n";
     }
-    output += `<font size="60">X: ${playerPosition.x.toFixed(2)} | Y: ${playerPosition.y.toFixed(2)} | Orientation: ${playerPosition.playerOrientation}°</font>`;
+    output += `<font size="120">X: ${playerPosition.x.toFixed(2)} | Y: ${playerPosition.y.toFixed(2)} | Orientation: ${playerPosition.playerOrientation}°</font>`;
 
     return output;
 }
