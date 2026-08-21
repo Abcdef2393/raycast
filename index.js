@@ -348,7 +348,7 @@ app.get("/left", (req, res) => {
 app.get("/map", (req, res) => {
     let localMap = toAscii(map);
     const cellIndex = Math.floor(playerPosition.x) + Math.floor(playerPosition.y) * MAP_SIZE;
-    let response = localMap.slice(0, cellIndex) + 🔴 + localMap.slice(cellIndex++);
+    let response = localMap.slice(0, cellIndex) + "🔴" + localMap.slice(cellIndex++);
     res.send(response);
 });
 
