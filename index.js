@@ -345,6 +345,13 @@ app.get("/left", (req, res) => {
     res.send(renderAscii(response));
 });
 
+app.get("/map", (req, res) => {
+    let localMap = toAscii(map);
+    const cellIndex = Math.floor(playerPosition.x) + Math.floor(playerPosition.y) * MAP_SIZE;
+    let response = localMap.slice(0, cellIndex) + 🔴 + localMap.slice(cellIndex++);
+    res.send(response);
+});
+
 app.listen(process.env.PORT || 3000, () => {
     console.log("Server is running");
 });
