@@ -330,7 +330,7 @@ app.get("/move", (req, res) => {
 });
 
 app.get("/right", (req, res) => {
-    playerPosition.playerOrientation -= 90;
+    playerPosition.playerOrientation -= 15;
     playerPosition.playerOrientation = angleWrap(playerPosition.playerOrientation);
     let response = castRay();
     res.send(renderAscii(response));
@@ -338,7 +338,7 @@ app.get("/right", (req, res) => {
 });
 
 app.get("/left", (req, res) => {
-    playerPosition.playerOrientation += 45;
+    playerPosition.playerOrientation += 15;
     playerPosition.playerOrientation = angleWrap(playerPosition.playerOrientation);
     let response = castRay();
     res.send(renderAscii(response));
