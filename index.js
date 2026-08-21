@@ -36,8 +36,8 @@ const playerPosition = {
 const getCartesian = orient => {
     const rad = orient * Math.PI / 180;
 
-    const dx = Math.cos(rad) * 1;
-    const dy = Math.sin(rad) * 1;
+    const dx = Math.cos(rad) * 0.5;
+    const dy = Math.sin(rad) * 0.5;
     return { x: dx, y: dy }
 };
 
@@ -331,13 +331,15 @@ app.get("/move", (req, res) => {
 
 app.get("/right", (req, res) => {
     playerPosition.playerOrientation -= 90;
+    playerPosition.playerOrientation = angleWrap(playerPosition.playerOrientation);
     let response = castRay();
     res.send(renderAscii(response));
 
 });
 
 app.get("/left", (req, res) => {
-    playerPosition.playerOrientation += 90;
+    playerPosition.playerOrientation += 45;
+    playerPosition.playerOrientation = angleWrap(playerPosition.playerOrientation);
     let response = castRay();
     res.send(renderAscii(response));
 });
