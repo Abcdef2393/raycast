@@ -305,6 +305,8 @@ function renderAscii(rays) {
 
         output += "\n";
     }
+    output += "/n";
+    output += `X: ${playerPosition.x.toFixed(2)} | Y: ${playerPosition.y.toFixed(2)} | Orientation: ${playerPosition.playerOrientation}°`;
 
     return output;
 }
