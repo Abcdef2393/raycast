@@ -346,9 +346,30 @@ app.get("/left", (req, res) => {
 });
 
 app.get("/map", (req, res) => {
-    let localMap = toAscii(map);
-    const cellIndex = Math.floor(playerPosition.x) + Math.floor(playerPosition.y) * MAP_SIZE;
-    let response = localMap.slice(0, cellIndex) + "🔴" + localMap.slice(cellIndex++);
+    const localMap = [...map];
+
+    const cellIndex =
+        Math.floor(playerPosition.x) +
+        Math.floor(playerPosition.y) * MAP_SIZE;
+
+    localMap[cellIndex] = 2;
+
+    let response = "";
+
+    for (let i = 0; i < localMap.length; i++) {
+        if (localMap[i] === 1) {
+            response += "⬜";
+        } else if (localMap[i] === 2) {
+            response += "🔴";
+        } else {
+            response += "⬛";
+        }
+
+        if ((i + 1) % MAP_SIZE === 0) {
+            response += "\n";
+        }
+    }
+
     res.send(response);
 });
 
