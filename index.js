@@ -335,7 +335,7 @@ function renderAscii(rays) {
 
         output += "\n";
     }
-    output += `<font size="120">X: ${playerPosition.x.toFixed(2)} | Y: ${playerPosition.y.toFixed(2)} | Orientation: ${playerPosition.playerOrientation}°</font>`;
+    output += `<font size="120">X: ${playerPosition.x.toFixed(2)} | Y: ${playerPosition.y.toFixed(2)} | Orientation: ${playerPosition.playerOrientation}° | Score: ${playerPosition.score}</font>`;
 
     return output;
 }
@@ -395,7 +395,7 @@ app.get("/map", (req, res) => {
             response += "⬜";
         } else if (localMap[i] === 2) {
             response += getDirection(playerPosition.playerOrientation);
-        } else if (localMap[i] === 70) {
+        } else if (i === 70) {
             response += "🔴";
         } else {
             response += "⬛";
