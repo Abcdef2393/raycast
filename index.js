@@ -3,6 +3,7 @@ const FOV = 60;
 const RAY_COUNT = 120;
 const express = require("express");
 const app = express();
+const winCondition = () => Math.random() < 0.5 ? 16 : 70;
 
 let SAVE;
 // [ 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1 ]
@@ -27,6 +28,7 @@ const mapTemplate = [
 const map = [];
 
 const playerPosition = {
+    winCondition: 0,
     score: 0,
     step: 0,
     x: 1.5,
@@ -95,6 +97,7 @@ function toAscii(map) {
 
 
 function generateMaze(id) {
+    playerPosition.winCondition = winCondition();
     let mazeId = id;
     let resultId = id;
     if (mazeId === undefined) {
@@ -309,7 +312,6 @@ function castRay() {
 
 function renderAscii(rays) {
     const screen = [];
-
     for (let y = 0; y < 80; y++) {
         for (let x = 0; x < 120; x++) {
 
@@ -395,7 +397,7 @@ app.get("/map", (req, res) => {
             response += "⬜";
         } else if (localMap[i] === 2) {
             response += getDirection(playerPosition.playerOrientation);
-        } else if (i === 70) {
+        } else if (i === playerPosition.winCondition) {
             response += "🔴";
         } else {
             response += "⬛";
@@ -415,9 +417,8 @@ app.get("/map", (req, res) => {
         playerPosition.x = 1.5;
         playerPosition.y = 1.5;
         playerPosition.playerOrientation = 90;
-
+        playerPosition.score += 5;
         generateMaze();
-        playerposition.score += 5;
     }
 });
 
