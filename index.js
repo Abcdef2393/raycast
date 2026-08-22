@@ -27,6 +27,8 @@ const mapTemplate = [
 const map = [];
 
 const playerPosition = {
+    score: 0,
+    step: 0,
     x: 1.5,
     y: 1.5,
     fov: FOV,
@@ -347,6 +349,10 @@ console.log(toAscii(map), SAVE);
 // console.log(rays);
 
 app.get("/move", (req, res) => {
+    playerPosition.step += 1;
+    if (playerPosition.step % 10 === 0) {
+        playerPosition.score += 1;
+    }
     let futureCartesian = getCartesian(playerPosition.playerOrientation);
     let createFuturePosition = { x: futureCartesian.x + playerPosition.x, y: futureCartesian.y + playerPosition.y };
     let futureCell = getCell(map, Math.floor(createFuturePosition.x), Math.floor(createFuturePosition.y));
@@ -389,6 +395,8 @@ app.get("/map", (req, res) => {
             response += "⬜";
         } else if (localMap[i] === 2) {
             response += getDirection(playerPosition.playerOrientation);
+        } else if (localMap[i] === 70) {
+            response += "🔴";
         } else {
             response += "⬛";
         }
@@ -409,6 +417,7 @@ app.get("/map", (req, res) => {
         playerPosition.playerOrientation = 90;
 
         generateMaze();
+        playerposition.score += 5;
     }
 });
 
