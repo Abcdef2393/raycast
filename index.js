@@ -352,7 +352,7 @@ console.log(toAscii(map), SAVE);
 
 app.get("/move", (req, res) => {
     playerPosition.step += 1;
-    if (playerPosition.step % 10 === 0) {
+    if (playerPosition.step % 30 === 0) {
         playerPosition.score += 1;
     }
     let futureCartesian = getCartesian(playerPosition.playerOrientation);
@@ -413,7 +413,7 @@ app.get("/map", (req, res) => {
     Math.floor(playerPosition.x) +
     Math.floor(playerPosition.y) * MAP_SIZE;
 
-    if (playerCell === winCondition) {
+    if (playerCell === playerPosition.winCondition) {
         playerPosition.x = 1.5;
         playerPosition.y = 1.5;
         playerPosition.playerOrientation = 90;
