@@ -399,6 +399,17 @@ app.get("/map", (req, res) => {
     }
 
     res.send(response);
+    const playerCell =
+    Math.floor(playerPosition.x) +
+    Math.floor(playerPosition.y) * MAP_SIZE;
+
+    if (playerCell === 70) {
+        playerPosition.x = 1.5;
+        playerPosition.y = 1.5;
+        playerPosition.playerOrientation = 90;
+
+        generateMaze();
+    }
 });
 
 app.listen(process.env.PORT || 3000, () => {
