@@ -413,7 +413,7 @@ app.get("/map", (req, res) => {
     Math.floor(playerPosition.x) +
     Math.floor(playerPosition.y) * MAP_SIZE;
 
-    if (playerCell === 70) {
+    if (playerCell === winCondition) {
         playerPosition.x = 1.5;
         playerPosition.y = 1.5;
         playerPosition.playerOrientation = 90;
