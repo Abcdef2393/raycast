@@ -5,6 +5,20 @@ const express = require("express");
 const app = express();
 const winCondition = () => Math.random() < 0.5 ? 16 : 70;
 
+function getEmoji(num) {
+    if (num <= 1.6) {
+        return "⬜"; // white
+    } else if (num <= 3.2) {
+        return "🟨"; // yellow
+    } else if (num <= 4.8) {
+        return "🟧"; // orange
+    } else if (num <= 6.4) {
+        return "🟥"; // red
+    } else {
+        return "⬛"; // black
+    }
+}
+
 let SAVE;
 // [ 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1 ]
 try {
@@ -319,12 +333,15 @@ function renderAscii(rays) {
 
             const top = (80 - height) / 2;
             const bottom = top + height;
-
+            const shade = rays[x].distance;
+            screen[y * 120 + x] = getEmoji(shade);
+            /*
             if (y >= top && y < bottom) {
                 screen[y * 120 + x] = "⬜";
             } else {
                 screen[y * 120 + x] = "⬛";
             }
+            */
         }
     }
 
