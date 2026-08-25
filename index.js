@@ -334,14 +334,11 @@ function renderAscii(rays) {
             const top = (80 - height) / 2;
             const bottom = top + height;
             const shade = rays[x].distance;
-            screen[y * 120 + x] = getEmoji(shade);
-            /*
             if (y >= top && y < bottom) {
-                screen[y * 120 + x] = "⬜";
+                  screen[y * 120 + x] = getEmoji(shade);
             } else {
                 screen[y * 120 + x] = "⬛";
             }
-            */
         }
     }
 
