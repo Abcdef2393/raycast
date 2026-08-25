@@ -340,7 +340,7 @@ function renderAscii(rays) {
                 if (y < 40) {
                     screen[y * 120 + x] = "⬛";
                 } else {
-                    screen[y * 120 + x] = "🟫";
+                    screen[y * 120 + x] = "🏿";
                 }
             }
         }
