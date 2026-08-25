@@ -337,7 +337,11 @@ function renderAscii(rays) {
             if (y >= top && y < bottom) {
                   screen[y * 120 + x] = getEmoji(shade);
             } else {
-                screen[y * 120 + x] = "⬛";
+                if (y < 40) {
+                    screen[y * 120 + x] = "⬛";
+                } else {
+                    screen[y * 120 + x] = "🟫";
+                }
             }
         }
     }
