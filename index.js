@@ -5,6 +5,11 @@ const express = require("express");
 const app = express();
 const winCondition = () => Math.random() < 0.5 ? 16 : 70;
 
+const convertIndex = index => ({
+    x: index % MAP_SIZE + 0.5,
+    y: Math.floor(index / MAP_SIZE) + 0.5
+});
+
 function getEmoji(num) {
     if (num <= 0.8) {
         return "⬜"; // white
@@ -53,10 +58,17 @@ const playerPosition = {
 
 const sprites = [
     {
+        id: "eye1",
         x: 7.5,
         y: 1.5,
+        type: "eye"
+    },
+    {
+        id: "checkpoint",
+        x: null,
+        y: null,
         type: "circle"
-    }
+    },
 ];
 
 const getDirection = orient => {
@@ -339,7 +351,7 @@ function renderSprites(screen, rays) {
         const dy = sprite.y - playerPosition.y;
 
         const distance = Math.sqrt(dx * dx + dy * dy);
-        
+
         if (distance > 8) {
             continue;
         }
@@ -372,11 +384,11 @@ function renderSprites(screen, rays) {
         const spriteHeight = wallHeight * 0.8;
         const spriteWidth = spriteHeight;
 
-        // Center the sprite vertically
+        // Center vertically
         const top = 40 - spriteHeight / 2;
         const bottom = 40 + spriteHeight / 2;
 
-        // Center the sprite horizontally
+        // Center horizontally
         const left = screenX - spriteWidth / 2;
         const right = screenX + spriteWidth / 2;
 
@@ -391,7 +403,8 @@ function renderSprites(screen, rays) {
                 if (x < 0 || x >= 120 || y < 0 || y >= 80) {
                     continue;
                 }
-                 if (distance >= rays[x].distance) {
+
+                if (distance >= rays[x].distance) {
                     continue;
                 }
 
@@ -413,14 +426,28 @@ function renderSprites(screen, rays) {
                         circleY * circleY
                     );
 
-                if (distanceFromCenter <= innerRadius / outerRadius) {
-                    screen[y * 120 + x] = "⬛";
+                // CIRCLE
+                if (sprite.type === "circle") {
+
+                    if (distanceFromCenter <= 1) {
+                        screen[y * 120 + x] = "🟩";
+                    }
+
                 }
-                else if (distanceFromCenter <= middleRadius / outerRadius) {
-                    screen[y * 120 + x] = "⬜";
-                }
-                else if (distanceFromCenter <= 1) {
-                    screen[y * 120 + x] = "🟩";
+
+                // EYE
+                else if (sprite.type === "eye") {
+
+                    if (distanceFromCenter <= innerRadius / outerRadius) {
+                        screen[y * 120 + x] = "⬛";
+                    }
+                    else if (distanceFromCenter <= middleRadius / outerRadius) {
+                        screen[y * 120 + x] = "⬜";
+                    }
+                    else if (distanceFromCenter <= 1) {
+                        screen[y * 120 + x] = "🟩";
+                    }
+
                 }
             }
         }
@@ -515,6 +542,7 @@ app.get("/map", (req, res) => {
     localMap[cellIndex] = 2;
 
     let response = "";
+    const checkpoint = sprites.find(sprite => sprite.id === "checkpoint");
 
     for (let i = 0; i < localMap.length; i++) {
         if (localMap[i] === 1) {
@@ -523,6 +551,9 @@ app.get("/map", (req, res) => {
             response += getDirection(playerPosition.playerOrientation);
         } else if (i === playerPosition.winCondition) {
             response += "🔴";
+            checkpoint.x = convertIndex(playerPosition.winCondition).x;
+            checkpoint.y = convertIndex(playerPosition.winCondition).y;
+            checkpoint. = playerPosition.winCondition;
         } else {
             response += "⬛";
         }
