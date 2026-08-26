@@ -6,15 +6,15 @@ const app = express();
 const winCondition = () => Math.random() < 0.5 ? 16 : 70;
 
 function getEmoji(num) {
-    if (num <= 1) {
+    if (num <= 0.5) {
         return "⬜"; // white
-    } else if (num <= 2) {
+    } else if (num <= 1) {
         return "🟨"; // yellow
-    } else if (num <= 4) {
+    } else if (num <= 2) {
         return "🟧"; // orange
-    } else if (num <= 8) {
+    } else if (num <= 4) {
         return "🟥"; // red
-    } else {
+    } else if (num <= 8) {
         return "⬛"; // black
     }
 }
@@ -50,6 +50,14 @@ const playerPosition = {
     fov: FOV,
     playerOrientation: 90
 };
+
+const sprites = [
+    {
+        x: 7.5,
+        y: 1.5,
+        type: "circle"
+    }
+];
 
 const getDirection = orient => {
    if (orient >= 337.5 || orient < 22.5) {
@@ -324,6 +332,98 @@ function castRay() {
     return result;
 }
 
+function renderSprites(screen, rays) {
+    for (const sprite of sprites) {
+
+        const dx = sprite.x - playerPosition.x;
+        const dy = sprite.y - playerPosition.y;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance > 8) {
+            continue;
+        }
+
+        const spriteAngle =
+            angleWrap(Math.atan2(dy, dx) * 180 / Math.PI);
+
+        let relativeAngle =
+            spriteAngle - playerPosition.playerOrientation;
+
+        if (relativeAngle > 180) relativeAngle -= 360;
+        if (relativeAngle < -180) relativeAngle += 360;
+
+        if (relativeAngle < -FOV / 2 || relativeAngle > FOV / 2) {
+            continue;
+        }
+
+        const screenX =
+            (relativeAngle + FOV / 2) / FOV * (RAY_COUNT - 1);
+
+        const rayIndex = Math.round(screenX);
+
+        if (rayIndex < 0 || rayIndex >= RAY_COUNT) {
+            continue;
+        }
+
+        const wallHeight = rays[rayIndex].screenHeight;
+
+        // Sprite is 4/5 of the wall height
+        const spriteHeight = wallHeight * 0.8;
+        const spriteWidth = spriteHeight;
+
+        // Center the sprite vertically
+        const top = 40 - spriteHeight / 2;
+        const bottom = 40 + spriteHeight / 2;
+
+        // Center the sprite horizontally
+        const left = screenX - spriteWidth / 2;
+        const right = screenX + spriteWidth / 2;
+
+        // Circle sizes
+        const outerRadius = spriteHeight / 2;
+        const middleRadius = outerRadius * 4 / 5;
+        const innerRadius = middleRadius * 1 / 3;
+
+        for (let y = Math.floor(top); y < Math.ceil(bottom); y++) {
+            for (let x = Math.floor(left); x < Math.ceil(right); x++) {
+
+                if (x < 0 || x >= 120 || y < 0 || y >= 80) {
+                    continue;
+                }
+
+                const normalizedX =
+                    (x - left) / spriteWidth;
+
+                const normalizedY =
+                    (y - top) / spriteHeight;
+
+                const circleX =
+                    normalizedX * 2 - 1;
+
+                const circleY =
+                    normalizedY * 2 - 1;
+
+                const distanceFromCenter =
+                    Math.sqrt(
+                        circleX * circleX +
+                        circleY * circleY
+                    );
+
+                if (distanceFromCenter <= innerRadius / outerRadius) {
+                    screen[y * 120 + x] = "⬛";
+                }
+                else if (distanceFromCenter <= middleRadius / outerRadius) {
+                    screen[y * 120 + x] = "⬜";
+                }
+                else if (distanceFromCenter <= 1) {
+                    screen[y * 120 + x] = "🟩";
+                }
+            }
+        }
+    }
+}
+
 function renderAscii(rays) {
     const screen = [];
     for (let y = 0; y < 80; y++) {
@@ -346,6 +446,8 @@ function renderAscii(rays) {
             }
         }
     }
+    
+    renderSprites(screen, rays);
 
     let output = "";
 
