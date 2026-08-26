@@ -56,13 +56,17 @@ const playerPosition = {
     playerOrientation: 90
 };
 
-const sprites = [
-    {
+
+
+/*
+   {
         id: "eye1",
         x: 7.5,
         y: 1.5,
         type: "eye"
     },
+*/
+const sprites = [
     {
         id: "checkpoint",
         x: null,
@@ -553,7 +557,6 @@ app.get("/map", (req, res) => {
             response += "🔴";
             checkpoint.x = convertIndex(playerPosition.winCondition).x;
             checkpoint.y = convertIndex(playerPosition.winCondition).y;
-            checkpoint. = playerPosition.winCondition;
         } else {
             response += "⬛";
         }
