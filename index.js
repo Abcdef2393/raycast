@@ -6,15 +6,15 @@ const app = express();
 const winCondition = () => Math.random() < 0.5 ? 16 : 70;
 
 function getEmoji(num) {
-    if (num <= 1) {
+    if (num <= 0.8) {
         return "⬜"; // white
-    } else if (num <= 2) {
+    } else if (num <= 1.6) {
         return "🟨"; // yellow
-    } else if (num <= 4) {
+    } else if (num <= 3.2) {
         return "🟧"; // orange
-    } else if (num <= 8) {
+    } else if (num <= 6.4) {
         return "🟥"; // red
-    } else if {
+    } else if (num <= 12.8) {
         return "⬛"; // black
     }
 }
