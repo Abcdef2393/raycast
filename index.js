@@ -334,6 +334,7 @@ function renderAscii(rays) {
             const top = (80 - height) / 2;
             const bottom = top + height;
             const shade = rays[x].distance;
+            const wallCenter = top + height / 2;
             if (y >= top && y < bottom) {
                   screen[y * 120 + x] = getEmoji(shade);
             } else {
@@ -385,7 +386,7 @@ app.get("/move", (req, res) => {
 });
 
 app.get("/right", (req, res) => {
-    playerPosition.playerOrientation -= 15;
+    playerPosition.playerOrientation -= 7.5;
     playerPosition.playerOrientation = angleWrap(playerPosition.playerOrientation);
     let response = castRay();
     res.send(renderAscii(response));
@@ -393,7 +394,7 @@ app.get("/right", (req, res) => {
 });
 
 app.get("/left", (req, res) => {
-    playerPosition.playerOrientation += 15;
+    playerPosition.playerOrientation += 7.5;
     playerPosition.playerOrientation = angleWrap(playerPosition.playerOrientation);
     let response = castRay();
     res.send(renderAscii(response));
