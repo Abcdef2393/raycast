@@ -391,6 +391,9 @@ function renderSprites(screen, rays) {
                 if (x < 0 || x >= 120 || y < 0 || y >= 80) {
                     continue;
                 }
+                 if (distance >= rays[x].distance) {
+                    continue;
+                }
 
                 const normalizedX =
                     (x - left) / spriteWidth;
