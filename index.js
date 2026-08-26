@@ -6,15 +6,15 @@ const app = express();
 const winCondition = () => Math.random() < 0.5 ? 16 : 70;
 
 function getEmoji(num) {
-    if (num <= 0.5) {
+    if (num <= 1) {
         return "⬜"; // white
-    } else if (num <= 1) {
-        return "🟨"; // yellow
     } else if (num <= 2) {
-        return "🟧"; // orange
+        return "🟨"; // yellow
     } else if (num <= 4) {
-        return "🟥"; // red
+        return "🟧"; // orange
     } else if (num <= 8) {
+        return "🟥"; // red
+    } else if {
         return "⬛"; // black
     }
 }
@@ -491,7 +491,7 @@ app.get("/move", (req, res) => {
 });
 
 app.get("/right", (req, res) => {
-    playerPosition.playerOrientation -= 7.5;
+    playerPosition.playerOrientation -= 15;
     playerPosition.playerOrientation = angleWrap(playerPosition.playerOrientation);
     let response = castRay();
     res.send(renderAscii(response));
@@ -499,7 +499,7 @@ app.get("/right", (req, res) => {
 });
 
 app.get("/left", (req, res) => {
-    playerPosition.playerOrientation += 7.5;
+    playerPosition.playerOrientation += 15;
     playerPosition.playerOrientation = angleWrap(playerPosition.playerOrientation);
     let response = castRay();
     res.send(renderAscii(response));
