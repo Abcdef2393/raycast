@@ -538,6 +538,7 @@ function npcReachedPlayer() {
             npcCellX === playerCellX &&
             npcCellY === playerCellY
         ) {
+            playerPosition.score = 0;
             return true;
         }
     }
@@ -1287,7 +1288,7 @@ app.get("/move", (req, res) => {
 
 
     if (
-        playerPosition.step % 30 === 0
+        playerPosition.step % 70 === 0
     ) {
 
         playerPosition.score += 1;
@@ -1595,15 +1596,9 @@ app.get("/map", (req, res) => {
         playerCell ===
         playerPosition.winCondition
     ) {
+        playerPosition.score += 10;
 
-        playerPosition.x = 1.5;
-        playerPosition.y = 1.5;
-
-        playerPosition.playerOrientation = 90;
-
-        playerPosition.score += 5;
-
-        generateMaze();
+        resetGame();
     }
 });
 
@@ -1663,6 +1658,9 @@ app.get("/fire", (req, res) => {
 
         sprite.health =
             Math.max(0, sprite.health - 1);
+        if (sprite.health === 0) {
+           playerPosition.score += 5;
+        }
 
         break;
     }
