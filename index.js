@@ -1657,10 +1657,11 @@ app.get("/fire", (req, res) => {
         sprite.health =
             Math.max(0, sprite.health - 1);
 
-        break;
+        res.send(String(sprite.health));
+        return;
     }
 
-    res.send("1");
+    res.send("0");
 });
 
 // =====================
