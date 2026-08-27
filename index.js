@@ -1609,13 +1609,10 @@ app.get("/map", (req, res) => {
 });
 
 app.get("/fire", (req, res) => {
-
     const rays = castRay();
     const ray = rays[59];
 
-    // Check each eye
     for (const sprite of sprites) {
-
         if (sprite.type !== "eye") {
             continue;
         }
@@ -1626,7 +1623,6 @@ app.get("/fire", (req, res) => {
         const distance =
             Math.sqrt(dx * dx + dy * dy);
 
-        // Maximum shooting distance
         if (distance > 8) {
             continue;
         }
@@ -1637,8 +1633,7 @@ app.get("/fire", (req, res) => {
             );
 
         let relativeAngle =
-            spriteAngle -
-            playerPosition.playerOrientation;
+            spriteAngle - playerPosition.playerOrientation;
 
         if (relativeAngle > 180) {
             relativeAngle -= 360;
@@ -1648,21 +1643,19 @@ app.get("/fire", (req, res) => {
             relativeAngle += 360;
         }
 
-        // Must be roughly in the center ray
-        const rayAngleDifference =
-            Math.abs(relativeAngle);
-
-        if (rayAngleDifference > FOV / RAY_COUNT) {
+        if (
+            Math.abs(relativeAngle) >
+            FOV / (RAY_COUNT - 1) / 2
+        ) {
             continue;
         }
 
-        // Wall is between player and eye
         if (distance >= ray.distance) {
             continue;
         }
 
-        // Hit the eye
-        sprite.health -= 1;
+        sprite.health =
+            Math.max(0, sprite.health - 1);
 
         break;
     }
