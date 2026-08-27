@@ -511,7 +511,6 @@ function resetGame() {
 // =====================
 // CHECK NPC COLLISION
 // =====================
-
 function npcReachedPlayer() {
 
     const playerCellX =
@@ -520,20 +519,20 @@ function npcReachedPlayer() {
     const playerCellY =
         Math.floor(playerPosition.y);
 
-
     for (const sprite of sprites) {
 
-        if (sprite.type !== "eye") {
+        if (
+            sprite.type !== "eye" ||
+            sprite.health <= 0
+        ) {
             continue;
         }
-
 
         const npcCellX =
             Math.floor(sprite.x);
 
         const npcCellY =
             Math.floor(sprite.y);
-
 
         if (
             npcCellX === playerCellX &&
@@ -542,7 +541,6 @@ function npcReachedPlayer() {
             return true;
         }
     }
-
 
     return false;
 }
@@ -1375,54 +1373,42 @@ app.get("/move", (req, res) => {
     // MOVE EYE 1
 
     if (
+        eyeOne.health > 0 &&
         findNpcPathOne &&
         findNpcPathOne.length > 0
     ) {
+        const firstPathOne = findNpcPathOne[0];
 
-        const firstPathOne =
-            findNpcPathOne[0];
-
-        eyeOne.x +=
-            firstPathOne.x;
-
-        eyeOne.y +=
-            firstPathOne.y;
+        eyeOne.x += firstPathOne.x;
+        eyeOne.y += firstPathOne.y;
     }
 
 
     // MOVE EYE 2
 
-    if (
+   if (
+        eyeTwo.health > 0 &&
         findNpcPathTwo &&
         findNpcPathTwo.length > 0
     ) {
+        const firstPathTwo = findNpcPathTwo[0];
 
-        const firstPathTwo =
-            findNpcPathTwo[0];
-
-        eyeTwo.x +=
-            firstPathTwo.x;
-
-        eyeTwo.y +=
-            firstPathTwo.y;
+        eyeTwo.x += firstPathTwo.x;
+        eyeTwo.y += firstPathTwo.y;
     }
 
 
     // MOVE EYE 3
 
     if (
+        eyeThree.health > 0 &&
         findNpcPathThree &&
         findNpcPathThree.length > 0
-    ) {
+    ){
+        const firstPathThree = findNpcPathThree[0];
 
-        const firstPathThree =
-            findNpcPathThree[0];
-
-        eyeThree.x +=
-            firstPathThree.x;
-
-        eyeThree.y +=
-            firstPathThree.y;
+        eyeThree.x += firstPathThree.x;
+        eyeThree.y += firstPathThree.y;
     }
 
 
@@ -1657,11 +1643,12 @@ app.get("/fire", (req, res) => {
         sprite.health =
             Math.max(0, sprite.health - 1);
 
-        res.send(String(sprite.health));
-        return;
+        break;
     }
 
-    res.send("0");
+    const updatedScreen = renderAscii(rays);
+
+    res.send(updatedScreen);
 });
 
 // =====================
