@@ -775,11 +775,24 @@ function renderSprites(screen, rays) {
     for (const sprite of sprites) {
 
         if (
+            sprite.type === "eye" &&
+            sprite.health <= 0
+        ) {
+            continue;
+        }
+
+        if (
             sprite.x === null ||
             sprite.y === null
         ) {
             continue;
         }
+            if (
+                sprite.x === null ||
+                sprite.y === null
+            ) {
+                continue;
+            }
 
 
         const dx =
