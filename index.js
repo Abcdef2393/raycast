@@ -1602,6 +1602,10 @@ app.get("/map", (req, res) => {
     }
 });
 
+app.get("/explosion", (req, res) => {
+    res.send("<font size="700">💥</font>");
+});
+
 app.get("/fire", (req, res) => {
     const rays = castRay();
     const ray = rays[59];
