@@ -1282,6 +1282,37 @@ console.log(
 // MOVE
 // =====================
 
+function canNpcMove(x, y) {
+    const margin = 0.25;
+
+    const positions = [
+        [x - margin, y - margin],
+        [x + margin, y - margin],
+        [x - margin, y + margin],
+        [x + margin, y + margin]
+    ];
+
+    for (const position of positions) {
+        const cellX = Math.floor(position[0]);
+        const cellY = Math.floor(position[1]);
+
+        if (
+            cellX < 0 ||
+            cellX >= MAP_SIZE ||
+            cellY < 0 ||
+            cellY >= MAP_SIZE
+        ) {
+            return false;
+        }
+
+        if (getCell(map, cellX, cellY) === 1) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 app.get("/move", (req, res) => {
 
     playerPosition.step += 1;
@@ -1393,22 +1424,15 @@ app.get("/move", (req, res) => {
     ) {
         const firstPathOne = findNpcPathOne[0];
 
-        const targetX =
-            Math.floor(eyeOne.x) +
-            firstPathOne.x +
-            0.5;
+        const newX1 =
+            eyeOne.x + firstPathOne.x * 0.5;
 
-        const targetY =
-            Math.floor(eyeOne.y) +
-            firstPathOne.y +
-            0.5;
+        const newY1 =
+            eyeOne.y + firstPathOne.y * 0.5;
 
-        if (firstPathOne.x !== 0) {
-            eyeOne.x += firstPathOne.x * 0.5;
-        }
-
-        if (firstPathOne.y !== 0) {
-            eyeOne.y += firstPathOne.y * 0.5;
+        if (canNpcMove(newX1, newY1)) {
+            eyeOne.x = newX1;
+            eyeOne.y = newY1;
         }
     }
 
@@ -1423,25 +1447,17 @@ app.get("/move", (req, res) => {
     ) {
         const firstPathTwo = findNpcPathTwo[0];
 
-        const targetX =
-            Math.floor(eyeTwo.x) +
-            firstPathTwo.x +
-            0.5;
+        const newX1 =
+            eyeTwo.x + firstPathTwo.x * 0.5;
 
-        const targetY =
-            Math.floor(eyeTwo.y) +
-            firstPathTwo.y +
-            0.5;
+        const newY1 =
+            eyeTwo.y + firstPathTwo.y * 0.5;
 
-        if (firstPathTwo.x !== 0) {
-            eyeTwo.x += firstPathTwo.x * 0.5;
-        }
-
-        if (firstPathTwo.y !== 0) {
-            eyeTwo.y += firstPathTwo.y * 0.5;
+        if (canNpcMove(newX1, newY1)) {
+            eyeTwo.x = newX1;
+            eyeTwo.y = newY1;
         }
     }
-
 
     // MOVE EYE 3
 
@@ -1452,24 +1468,18 @@ app.get("/move", (req, res) => {
     ) {
         const firstPathThree = findNpcPathThree[0];
 
-        const targetX =
-            Math.floor(eyeThree.x) +
-            firstPathThree.x +
-            0.5;
+        const newX1 =
+            eyeThree.x + firstPathThree.x * 0.5;
 
-        const targetY =
-            Math.floor(eyeThree.y) +
-            firstPathThree.y +
-            0.5;
+        const newY1 =
+            eyeThree.y + firstPathThree.y * 0.5;
 
-        if (firstPathThree.x !== 0) {
-            eyeThree.x += firstPathThree.x * 0.5;
-        }
-
-        if (firstPathThree.y !== 0) {
-            eyeThree.y += firstPathThree.y * 0.5;
+        if (canNpcMove(newX1, newY1)) {
+            eyeThree.x = newX1;
+            eyeThree.y = newY1;
         }
     }
+
 
 
     // CHECK IF ANY NPC REACHED PLAYER
