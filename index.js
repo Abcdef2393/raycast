@@ -1438,7 +1438,7 @@ app.get("/move", (req, res) => {
 
 app.get("/right", (req, res) => {
 
-    playerPosition.playerOrientation -= 15;
+    playerPosition.playerOrientation -= 7.5;
 
     playerPosition.playerOrientation =
         angleWrap(
@@ -1462,7 +1462,7 @@ app.get("/right", (req, res) => {
 
 app.get("/left", (req, res) => {
 
-    playerPosition.playerOrientation += 15;
+    playerPosition.playerOrientation += 7.5;
 
     playerPosition.playerOrientation =
         angleWrap(
@@ -1599,7 +1599,7 @@ app.get("/fire", (req, res) => {
     const ray = rays[59];
 
     for (const sprite of sprites) {
-        if (sprite.type !== "eye") {
+        if (sprite.type !== "eye" || sprite.health <= 0) {
             continue;
         }
 
@@ -1646,9 +1646,8 @@ app.get("/fire", (req, res) => {
         break;
     }
 
-    const updatedScreen = renderAscii(rays);
-
-    res.send(updatedScreen);
+    // Render AFTER changing health
+    res.send(renderAscii(rays));
 });
 
 // =====================
