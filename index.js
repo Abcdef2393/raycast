@@ -1393,43 +1393,52 @@ app.get("/move", (req, res) => {
     ) {
         const firstPathOne = findNpcPathOne[0];
 
-        const newX = eyeOne.x + firstPathOne.x * 0.5;
-        const newY = eyeOne.y + firstPathOne.y * 0.5;
+        const targetX =
+            Math.floor(eyeOne.x) +
+            firstPathOne.x +
+            0.5;
 
-        if (
-            getCell(
-                map,
-                Math.floor(newX),
-                Math.floor(newY)
-            ) === 0
-        ) {
-            eyeOne.x = newX;
-            eyeOne.y = newY;
+        const targetY =
+            Math.floor(eyeOne.y) +
+            firstPathOne.y +
+            0.5;
+
+        if (firstPathOne.x !== 0) {
+            eyeOne.x += firstPathOne.x * 0.5;
+        }
+
+        if (firstPathOne.y !== 0) {
+            eyeOne.y += firstPathOne.y * 0.5;
         }
     }
 
 
     // MOVE EYE 2
 
-   if (
+
+    if (
         eyeTwo.health > 0 &&
         findNpcPathTwo &&
         findNpcPathTwo.length > 0
     ) {
         const firstPathTwo = findNpcPathTwo[0];
 
-        const newX = eyeTwo.x + firstPathTwo.x * 0.5;
-        const newY = eyeTwo.y + firstPathTwo.y * 0.5;
+        const targetX =
+            Math.floor(eyeTwo.x) +
+            firstPathTwo.x +
+            0.5;
 
-        if (
-            getCell(
-                map,
-                Math.floor(newX),
-                Math.floor(newY)
-            ) === 0
-        ) {
-            eyeTwo.x = newX;
-            eyeTwo.y = newY;
+        const targetY =
+            Math.floor(eyeTwo.y) +
+            firstPathTwo.y +
+            0.5;
+
+        if (firstPathTwo.x !== 0) {
+            eyeTwo.x += firstPathTwo.x * 0.5;
+        }
+
+        if (firstPathTwo.y !== 0) {
+            eyeTwo.y += firstPathTwo.y * 0.5;
         }
     }
 
@@ -1440,21 +1449,25 @@ app.get("/move", (req, res) => {
         eyeThree.health > 0 &&
         findNpcPathThree &&
         findNpcPathThree.length > 0
-    ){
+    ) {
         const firstPathThree = findNpcPathThree[0];
 
-        const newX = eyeThree.x + firstPathThree.x * 0.5;
-        const newY = eyeThree.y + firstPathThree.y * 0.5;
+        const targetX =
+            Math.floor(eyeThree.x) +
+            firstPathThree.x +
+            0.5;
 
-        if (
-            getCell(
-                map,
-                Math.floor(newX),
-                Math.floor(newY)
-            ) === 0
-        ) {
-            eyeThree.x = newX;
-            eyeThree.y = newY;
+        const targetY =
+            Math.floor(eyeThree.y) +
+            firstPathThree.y +
+            0.5;
+
+        if (firstPathThree.x !== 0) {
+            eyeThree.x += firstPathThree.x * 0.5;
+        }
+
+        if (firstPathThree.y !== 0) {
+            eyeThree.y += firstPathThree.y * 0.5;
         }
     }
 
