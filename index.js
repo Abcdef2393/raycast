@@ -1612,7 +1612,11 @@ app.get("/fire", (req, res) => {
     const ray = rays[59];
 
     for (const sprite of sprites) {
-        if (sprite.type !== "eye" || sprite.health <= 0) {
+
+        if (
+            sprite.type !== "eye" ||
+            sprite.health <= 0
+        ) {
             continue;
         }
 
@@ -1632,7 +1636,8 @@ app.get("/fire", (req, res) => {
             );
 
         let relativeAngle =
-            spriteAngle - playerPosition.playerOrientation;
+            spriteAngle -
+            playerPosition.playerOrientation;
 
         if (relativeAngle > 180) {
             relativeAngle -= 360;
@@ -1642,13 +1647,16 @@ app.get("/fire", (req, res) => {
             relativeAngle += 360;
         }
 
+        // NPC hitbox
+        const HIT_ANGLE = 5;
+
         if (
-            Math.abs(relativeAngle) >
-            FOV / (RAY_COUNT - 1) / 2
+            Math.abs(relativeAngle) > HIT_ANGLE
         ) {
             continue;
         }
 
+        // Wall is between player and NPC
         if (distance >= ray.distance) {
             continue;
         }
@@ -1659,7 +1667,7 @@ app.get("/fire", (req, res) => {
         break;
     }
 
-    // Render AFTER changing health
+    // Send the newly rendered frame
     res.send(renderAscii(rays));
 });
 
