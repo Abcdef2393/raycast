@@ -968,7 +968,7 @@ function renderSprites(screen, rays) {
 
                         screen[
                             y * 120 + x
-                        ] = "🟩";
+                        ] = "🔵";
                     }
                 }
 
@@ -1393,8 +1393,8 @@ app.get("/move", (req, res) => {
     ) {
         const firstPathOne = findNpcPathOne[0];
 
-        eyeOne.x += firstPathOne.x;
-        eyeOne.y += firstPathOne.y;
+        eyeOne.x += firstPathOne.x * 0.5;
+        eyeOne.y += firstPathOne.y * 0.5;
     }
 
 
@@ -1407,8 +1407,8 @@ app.get("/move", (req, res) => {
     ) {
         const firstPathTwo = findNpcPathTwo[0];
 
-        eyeTwo.x += firstPathTwo.x;
-        eyeTwo.y += firstPathTwo.y;
+        eyeTwo.x += firstPathTwo.x * 0.5;
+        eyeTwo.y += firstPathTwo.y * 0.5;
     }
 
 
@@ -1421,8 +1421,8 @@ app.get("/move", (req, res) => {
     ){
         const firstPathThree = findNpcPathThree[0];
 
-        eyeThree.x += firstPathThree.x;
-        eyeThree.y += firstPathThree.y;
+        eyeThree.x += firstPathThree.x * 0.5;
+        eyeThree.y += firstPathThree.y * 0.5;
     }
 
 
@@ -1551,7 +1551,7 @@ app.get("/map", (req, res) => {
             playerPosition.winCondition
         ) {
 
-            response += "🔴";
+            response += "🔵";
 
 
             checkpoint.x =
