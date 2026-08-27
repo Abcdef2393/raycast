@@ -1393,8 +1393,19 @@ app.get("/move", (req, res) => {
     ) {
         const firstPathOne = findNpcPathOne[0];
 
-        eyeOne.x += firstPathOne.x * 0.5;
-        eyeOne.y += firstPathOne.y * 0.5;
+        const newX = eyeOne.x + firstPathOne.x * 0.5;
+        const newY = eyeOne.y + firstPathOne.y * 0.5;
+
+        if (
+            getCell(
+                map,
+                Math.floor(newX),
+                Math.floor(newY)
+            ) === 0
+        ) {
+            eyeOne.x = newX;
+            eyeOne.y = newY;
+        }
     }
 
 
@@ -1407,8 +1418,19 @@ app.get("/move", (req, res) => {
     ) {
         const firstPathTwo = findNpcPathTwo[0];
 
-        eyeTwo.x += firstPathTwo.x * 0.5;
-        eyeTwo.y += firstPathTwo.y * 0.5;
+        const newX = eyeTwo.x + firstPathTwo.x * 0.5;
+        const newY = eyeTwo.y + firstPathTwo.y * 0.5;
+
+        if (
+            getCell(
+                map,
+                Math.floor(newX),
+                Math.floor(newY)
+            ) === 0
+        ) {
+            eyeTwo.x = newX;
+            eyeTwo.y = newY;
+        }
     }
 
 
@@ -1421,8 +1443,19 @@ app.get("/move", (req, res) => {
     ){
         const firstPathThree = findNpcPathThree[0];
 
-        eyeThree.x += firstPathThree.x * 0.5;
-        eyeThree.y += firstPathThree.y * 0.5;
+        const newX = eyeThree.x + firstPathThree.x * 0.5;
+        const newY = eyeThree.y + firstPathThree.y * 0.5;
+
+        if (
+            getCell(
+                map,
+                Math.floor(newX),
+                Math.floor(newY)
+            ) === 0
+        ) {
+            eyeThree.x = newX;
+            eyeThree.y = newY;
+        }
     }
 
 
